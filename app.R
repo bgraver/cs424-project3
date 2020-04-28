@@ -55,7 +55,7 @@ cleaner$year <- year(cleaner$date)
 # ggplot months
 month <- cleaner$month
 month <- month[!is.na(month)]
-df.month <- data.frame(month)
+df.month <- as.data.frame(table(month))
 ###########################################################################################################
 
 
@@ -137,8 +137,9 @@ server <- function(input, output) {
     
     output$monthPlot <- renderPlot({
         # ggplot - number of graphs released each month of the database
-        g <- ggplot(data=df.month, aes(month)) + geom_bar(stat="count")
+        g <- ggplot(data=df.month, aes(month, y=Freq)) + geom_bar(stat="identity")
         g
+        
     })
     
     output$DT.month <- DT::renderDataTable(
